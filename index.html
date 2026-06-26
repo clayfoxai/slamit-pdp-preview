@@ -2494,11 +2494,53 @@
     /* 600px */
     @media (max-width: 600px) {
       .ingredient-grid { grid-template-columns: 1fr; }
-      .pro-lifestyle-strip { grid-template-columns: 1fr; }
       /* Switch to single-item ticker on mobile */
       .proof-bar { padding: 10px var(--section-pad-h); }
       .proof-bar-inner { display: none; }
       .proof-ticker { display: block; }
+
+      /* SIP IT / SERVE IT / SLAM IT — horizontal snap carousel on mobile */
+      .pro-lifestyle-strip {
+        display: flex !important;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 14px;
+        /* bleed past container padding so cards go edge-to-edge */
+        margin-inline: calc(-1 * var(--section-pad-h));
+        padding-inline: var(--section-pad-h);
+        scroll-padding-inline-start: var(--section-pad-h);
+        padding-bottom: 4px;
+      }
+      .pro-lifestyle-strip::-webkit-scrollbar { display: none; }
+      .pro-lifestyle-strip .lifestyle-item {
+        flex: 0 0 82vw;
+        scroll-snap-align: start;
+      }
+
+      /* Dot indicators */
+      .lifestyle-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 18px;
+      }
+      .lifestyle-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border);
+        transition: background 0.25s, transform 0.25s;
+      }
+      .lifestyle-dot.active {
+        background: var(--magenta);
+        transform: scale(1.25);
+      }
+    }
+    /* Hide dots on desktop */
+    @media (min-width: 601px) {
+      .lifestyle-dots { display: none; }
     }
 
     /* 414px */
@@ -2952,6 +2994,12 @@
             <div class="lifestyle-cap-main lifestyle-cap-main--xl">SLAM IT!</div>
           </div>
         </div>
+      </div>
+      <!-- Carousel dots — visible on mobile only, hidden via CSS on desktop -->
+      <div class="lifestyle-dots" id="lifestyleDots" aria-hidden="true">
+        <div class="lifestyle-dot active"></div>
+        <div class="lifestyle-dot"></div>
+        <div class="lifestyle-dot"></div>
       </div>
 
       <!-- CTA after pros -->
@@ -4096,6 +4144,22 @@
   })();
 
   // Floating sticks are animated purely via CSS keyframes (no JS needed)
+
+  // SIP IT / SERVE IT / SLAM IT — carousel dot sync (mobile only)
+  (function() {
+    var strip = document.querySelector('.pro-lifestyle-strip');
+    var dots  = document.querySelectorAll('#lifestyleDots .lifestyle-dot');
+    if (!strip || !dots.length) return;
+    var items = strip.querySelectorAll('.lifestyle-item');
+    function updateDots() {
+      var scrollLeft = strip.scrollLeft;
+      var itemWidth  = items[0] ? items[0].offsetWidth + 14 : 1; // 14 = gap
+      var idx = Math.round(scrollLeft / itemWidth);
+      idx = Math.max(0, Math.min(idx, dots.length - 1));
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    }
+    strip.addEventListener('scroll', updateDots, { passive: true });
+  })();
 
   // Proof bar mobile ticker
   (function() {
