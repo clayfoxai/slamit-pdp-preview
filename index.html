@@ -727,42 +727,8 @@
     }
 
     @media (max-width: 767px) {
-      /* On mobile: centered at the top of the ingredients section,
-         peeking slightly over the bottom of the video carousel above */
-      .stage-ingredients { overflow: visible; } /* let sticks bleed upward */
-      .stick-duo {
-        position: absolute;
-        top: clamp(-64px, -10vw, -44px); /* bleed into the gradient section above */
-        bottom: auto;
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        width: clamp(160px, 50vw, 220px);
-        height: auto;
-        z-index: 10;
-      }
-      .stick-duo .stick {
-        width: clamp(52px, 16vw, 74px);
-      }
-      .stick-duo .stick-berry {
-        left: 0;
-        top: 0;
-        animation: stickFloat1m 3.8s ease-in-out infinite;
-      }
-      .stick-duo .stick-cherry {
-        right: 0;
-        top: clamp(14px, 4vw, 24px);
-        animation: stickFloat2m 4.5s ease-in-out infinite;
-        animation-delay: -1.8s;
-      }
-      @keyframes stickFloat1m {
-        0%, 100% { transform: rotate(-24deg) translateY(0px); }
-        50%       { transform: rotate(-22deg) translateY(-8px); }
-      }
-      @keyframes stickFloat2m {
-        0%, 100% { transform: rotate(18deg) translateY(0px); }
-        50%       { transform: rotate(20deg) translateY(-6px); }
-      }
+      /* Sticks hidden on mobile — they overlap copy at small sizes */
+      .stick-duo { display: none; }
     }
 
     .ingredient-grid {
@@ -2512,46 +2478,33 @@
       .proof-bar-inner { display: none; }
       .proof-ticker { display: block; }
 
-      /* SIP IT / SERVE IT / SLAM IT — horizontal snap carousel on mobile */
+      /* SIP IT / SERVE IT / SLAM IT — 2+1 grid on mobile:
+         SIP and SERVE side-by-side on top, SLAM centered below */
       .pro-lifestyle-strip {
-        display: flex !important;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 14px;
-        /* bleed past container padding so cards go edge-to-edge */
-        margin-inline: calc(-1 * var(--section-pad-h));
-        padding-inline: var(--section-pad-h);
-        scroll-padding-inline-start: var(--section-pad-h);
-        padding-bottom: 4px;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        overflow: visible;
+        scroll-snap-type: none;
+        margin-inline: 0;
+        padding-inline: 0;
+        padding-bottom: 0;
       }
-      .pro-lifestyle-strip::-webkit-scrollbar { display: none; }
       .pro-lifestyle-strip .lifestyle-item {
-        flex: 0 0 82vw;
-        scroll-snap-align: start;
+        flex: none;
+        scroll-snap-align: none;
+        width: auto;
       }
-
-      /* Dot indicators */
-      .lifestyle-dots {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 18px;
+      /* SLAM IT (3rd item) — full-width row, centered at 65% */
+      .pro-lifestyle-strip .lifestyle-item:nth-child(3) {
+        grid-column: 1 / -1;
+        width: 65%;
+        margin-inline: auto;
       }
-      .lifestyle-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--border);
-        transition: background 0.25s, transform 0.25s;
-      }
-      .lifestyle-dot.active {
-        background: var(--magenta);
-        transform: scale(1.25);
-      }
+      /* Dots not needed for grid layout */
+      .lifestyle-dots { display: none !important; }
     }
-    /* Hide dots on desktop */
+    /* Hide dots on desktop too */
     @media (min-width: 601px) {
       .lifestyle-dots { display: none; }
     }
