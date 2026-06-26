@@ -1743,6 +1743,10 @@
     @media (prefers-reduced-motion: reduce) {
       .pb-ball { animation: none; }
     }
+    /* Hide floating pickleballs on mobile — they bleed outside viewport causing horizontal scroll */
+    @media (max-width: 767px) {
+      .pb-ball { display: none; }
+    }
 
     /* Benefit strip — replaces pro quote strip */
     .benefit-strip {
@@ -2273,7 +2277,7 @@
         background: rgba(255,255,255,0.94);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        padding-top: clamp(40px, 5vw, 56px); /* room for badge */
+        padding-top: 80px; /* room for badge: badge bottom = 88px - 24px top = 64px, plus clearance */
       }
       .guarantee-badge {
         right: 50%;
@@ -3408,12 +3412,6 @@
   ===================================================== -->
   <section class="stage-guarantee">
 
-    <!-- Anna — absolute on desktop (bottom-locked left), static on mobile (below copy) -->
-    <div class="guarantee-anna" aria-hidden="true">
-      <img src="https://cdn.shopify.com/s/files/1/0911/6011/7615/files/slamit-focus-pro-anna-bright.webp?v=1782490620"
-        alt="Anna Bright — Pro Pickleball Player" draggable="false">
-    </div>
-
     <div class="container guarantee-layout">
       <!-- Spacer holds space for Anna on desktop; hidden on mobile -->
       <div class="guarantee-spacer" aria-hidden="true"></div>
@@ -3426,6 +3424,12 @@
         <a href="#" class="btn btn-primary" style="margin-top: 8px; font-size: clamp(14px, 1.8vw, 16px);">Shop FOCUS Now &middot; Risk-Free</a>
         <p class="cta-caption" style="margin-top: 0;">Subscribe &amp; Save BIG &nbsp;&middot;&nbsp; Free Shipping Today</p>
       </div>
+    </div>
+
+    <!-- Anna — absolute on desktop (bottom-locked left), static below card on mobile -->
+    <div class="guarantee-anna" aria-hidden="true">
+      <img src="https://cdn.shopify.com/s/files/1/0911/6011/7615/files/slamit-focus-pro-anna-bright.webp?v=1782490620"
+        alt="Anna Bright — Pro Pickleball Player" draggable="false">
     </div>
 
   </section>
