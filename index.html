@@ -2478,8 +2478,18 @@
       }
       .pro-quote-strip { grid-template-columns: 1fr; }
 
-      /* Bags are at minimum size on mobile — need more clearance for the text */
-      .stage-pros { padding-block-start: clamp(210px, 55vw, 260px); }
+      /* Stage mechanism: add bottom padding so Shawn Wells caption
+         doesn't bleed into the bags section on mobile */
+      .stage-mechanism { padding-bottom: 40px; }
+
+      /* Bags are smaller on mobile — reduce negative margin so stage-pros
+         doesn't shoot upward into stage-mechanism (which caused the caption
+         text to be covered by the pink glow background from stage-pros) */
+      .stage-flavors { margin-bottom: -110px; }
+
+      /* Recalibrate stage-pros padding to match the reduced bag overlap.
+         Bags sit above, so we need just enough space to clear them. */
+      .stage-pros { padding-block-start: clamp(160px, 42vw, 200px); }
     }
 
     /* 680px */
