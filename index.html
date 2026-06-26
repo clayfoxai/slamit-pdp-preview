@@ -727,8 +727,41 @@
     }
 
     @media (max-width: 767px) {
-      /* Sticks hidden on mobile — they overlap copy at small sizes */
-      .stick-duo { display: none; }
+      /* Sticks: far-right edge, steeply rotated so they're nearly vertical.
+         overflow:hidden on .stage-ingredients clips the portion that bleeds off-screen. */
+      .stick-duo {
+        position: absolute;
+        top: 48px;
+        right: -18px;   /* straddle the right edge — section clips the bleed */
+        left: auto;
+        bottom: auto;
+        width: 72px;
+        height: auto;
+        z-index: 1;
+        transform: none;
+      }
+      .stick-duo .stick {
+        width: 30px;
+      }
+      .stick-duo .stick-berry {
+        left: 0;
+        top: 0;
+        animation: stickFloat1m 3.8s ease-in-out infinite;
+      }
+      .stick-duo .stick-cherry {
+        right: 0;
+        top: 38px;
+        animation: stickFloat2m 4.5s ease-in-out infinite;
+        animation-delay: -1.8s;
+      }
+      @keyframes stickFloat1m {
+        0%, 100% { transform: rotate(-68deg) translateY(0px); }
+        50%       { transform: rotate(-66deg) translateY(-5px); }
+      }
+      @keyframes stickFloat2m {
+        0%, 100% { transform: rotate(58deg) translateY(0px); }
+        50%       { transform: rotate(60deg) translateY(-5px); }
+      }
     }
 
     .ingredient-grid {
